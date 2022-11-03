@@ -1,4 +1,4 @@
-import 'package:crypto_tracker/screens/homepage.dart';
+import 'package:crypto_tracker/screens/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Crypto Tracker',
-      home: HomePage(),
+      home: SplashScreen(),
     );
   }
 }

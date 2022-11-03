@@ -25,7 +25,7 @@ class CoinCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 10, right: 10),
       child: Container(
-        height: 100,
+        height: 110,
         decoration: BoxDecoration(
             color: light == true ? Colors.grey[300] : Colors.grey[900],
             border: Border(

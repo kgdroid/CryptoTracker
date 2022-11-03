@@ -19,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int index = 1;
+  List<Coin> liked = [];
   final items = <Widget>[
     const Icon(Icons.favorite),
     const Icon(Icons.home),
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     fetchCoin();
+    liked=[];
     Timer.periodic(const Duration(seconds: 10), (timer) => fetchCoin());
     super.initState();
   }
@@ -94,17 +96,17 @@ class _HomePageState extends State<HomePage> {
                     color: light == true ? Colors.grey[900] : Colors.white)),
           ),
         ),
-        body: page(index, light));
+        body: page(index, light, liked));
   }
 }
 
-Widget page(int index, bool light) {
+Widget page(int index, bool light, List<Coin> liked) {
   switch (index) {
     case 0:
-      return fav(light);
+      return fav(light, liked);
       break;
     case 1:
-      return homeItems(light);
+      return homeItems(light, liked);
       break;
     case 2:
       return profile(light);
@@ -113,7 +115,7 @@ Widget page(int index, bool light) {
   return HomePage();
 }
 
-Widget homeItems(bool light) {
+Widget homeItems(bool light, List<Coin> liked) {
   return ListView.builder(
     scrollDirection: Axis.vertical,
     itemCount: coinList.length,
@@ -132,7 +134,12 @@ Widget homeItems(bool light) {
                   backgroundColor: Colors.redAccent,
                   icon: Icons.favorite,
                   label: 'love',
-                  onPressed: (BuildContext context) {},
+                  onPressed: (BuildContext context) {
+                    if(!liked.contains(coinList[index])){
+                      liked.add(coinList[index]);
+                    }
+                    
+                  },
                 )
               ],
             ),
@@ -152,10 +159,47 @@ Widget homeItems(bool light) {
   );
 }
 
-Widget fav(bool light) {
-  return Text("Fav");
+Widget fav(bool light, List<Coin> liked) {
+  return liked.length>0? ListView.builder(
+    scrollDirection: Axis.vertical,
+    itemCount: liked.length,
+    itemBuilder: (context, index) {
+      return Column(
+        children: [
+          Slidable(
+            endActionPane: ActionPane(
+              motion: const DrawerMotion(),
+              children: [
+                SlidableAction(
+                  padding: EdgeInsets.zero,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20)),
+                  backgroundColor: Colors.redAccent,
+                  icon: Icons.delete,
+                  label: 'Delete',
+                  onPressed: (BuildContext context) {
+                    liked.remove(liked[index]);
+                  },
+                )
+              ],
+            ),
+            child: CoinCard(
+              light: light,
+              name: liked[index].name,
+              symbol: liked[index].symbol,
+              imageUrl: liked[index].imageUrl,
+              price: liked[index].price.toDouble(),
+              change: liked[index].change.toDouble(),
+              rank: liked[index].rank.toDouble(),
+            ),
+          ),
+        ],
+      );
+    },
+  ) : Text("No Data");
 }
 
 Widget profile(bool light) {
-  return ProfilePage();
+  return ProfilePage(light: light,);
 }

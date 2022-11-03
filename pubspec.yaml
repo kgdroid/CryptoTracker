@@ -44,6 +44,7 @@ dependencies:
   flutter_slidable: ^2.0.0
   slide_to_act: ^2.0.1
   xml: ^6.1.0
+  lottie: ^1.4.3
   
 
 dev_dependencies:
@@ -71,6 +72,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/doremon.jpeg
+    - assets/login.png
+    - assets/register.png
+    - assets/crypto.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
